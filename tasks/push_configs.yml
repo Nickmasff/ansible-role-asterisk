@@ -47,6 +47,7 @@
     - /var/www/
     - /etc/letsencrypt/live
     - /etc/letsencrypt/archive
+  changed_when: false
 
 - name: Make sure the default asterisk service is enabled and started
   service:
