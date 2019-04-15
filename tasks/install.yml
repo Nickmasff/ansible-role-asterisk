@@ -44,9 +44,10 @@
     extra_opts: ['--strip-components=1']
 
 - name: Let asterisk install dependencies
-  shell: 'set -o pipefail && export DEBIAN_FRONTEND=noninteractive && yes |
+  shell: 'export DEBIAN_FRONTEND=noninteractive && yes |
   ./contrib/scripts/install_prereq install chdir={{ asterisk_src_dir }}'
   when: not asterisk_status.stat.exists
+  tags: skip_ansible_lint
 
 - name: Configure asterisk
   command: ./configure --with-pjproject-bundled chdir={{ asterisk_src_dir }}
