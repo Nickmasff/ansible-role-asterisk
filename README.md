@@ -1,5 +1,4 @@
 # Ansible Role: Asterisk
-=========
 
 Installs and configures MySQL and Asterisk with ODBC realtime database driver.
 
