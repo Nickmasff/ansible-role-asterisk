@@ -1,5 +1,7 @@
 # Ansible Role: Asterisk
 
+[![Build Status](https://travis-ci.com/Nickmasff/ansible-role-asterisk.svg?branch=master)](https://travis-ci.com/Nickmasff/ansible-role-asterisk)
+
 Installs and configures MySQL and Asterisk with ODBC realtime database driver.
 
 Requirements
@@ -8,7 +10,7 @@ Requirements
 No special requirements; note that this role requires root access, so either run it in a playbook with a global `become: yes`, or invoke the role in your playbook like:
 
 
-    - hosts: asterisk_machine
+    - hosts: asterisk_machines
       roles:
         - role: nickmasff.asterisk
           become: yes
@@ -27,7 +29,7 @@ None.
 
 ## Example Playbook
 
-    - hosts: asterisk_test_machines
+    - hosts: asterisk_machines
       become: yes
       vars_files:
         - variables.yml
