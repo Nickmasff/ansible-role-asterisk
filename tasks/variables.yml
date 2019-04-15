@@ -1,0 +1,16 @@
+---
+- name: Check Asterisk Installation
+  stat: path=/etc/init.d/asterisk
+  register: asterisk_status
+
+- name: Check Asterisk Keys
+  stat: path=/etc/asterisk/keys
+  register: asterisk_keys
+
+- name: Check ODBC Installation
+  stat: "path={{ asterisk_odbc_driver_path }}"
+  register: odbc_driver
+
+- name: Check Alembic Installation
+  stat: "path={{ alembic_path }}/config.ini"
+  register: alembic_config

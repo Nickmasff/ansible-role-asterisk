@@ -1,0 +1,15 @@
+---
+- include_tasks: variables.yml
+
+- include_tasks: mysql.yml
+
+- include_tasks: install.yml
+  when: not asterisk_status.stat.exists
+
+- include_tasks: install_odbc.yml
+  when: not odbc_driver.stat.exists
+
+- include_tasks: install_alembic.yml
+  when: not alembic_config.stat.exists
+
+- include_tasks: push_configs.yml

@@ -1,0 +1,4 @@
+exclude_paths:
+  - ./my/excluded/directory/
+  - ./my/other/excluded/directory/
+  - ./last/excluded/directory/

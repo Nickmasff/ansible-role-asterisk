@@ -1,0 +1,23 @@
+; {{ ansible_managed }}
+
+[test_sorcery_section]
+test=memory
+
+[test_sorcery_cache]
+test/cache=test
+test=memory
+
+[res_pjsip] ; Realtime PJSIP configuration wizard
+endpoint=realtime,ps_endpoints
+endpoint=config,pjsip.conf,criteria=type=endpoint
+auth=realtime,ps_auths
+auth=config,pjsip.conf,criteria=type=auth
+aor=realtime,ps_aors
+aor=config,pjsip.conf,criteria=type=aor
+
+domain_alias=realtime,ps_domain_aliases
+contact=realtime,ps_contacts
+
+[res_pjsip_endpoint_identifier_ip]
+identify=config,pjsip.conf,criteria=type=identify
+

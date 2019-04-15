@@ -1,0 +1,29 @@
+---
+- name: Remove existing install source dir
+  file: "path={{ odbc_src_dir }} state=absent"
+
+- name: Create install source dir
+  file: "path={{ odbc_src_dir }} state=directory"
+
+- name: Download and extract ODBC source
+  unarchive: "src={{ odbc_src_url }} dest={{ odbc_src_dir }}
+  remote_src=yes extra_opts=--strip-components=1"
+
+- name: Copy the driver to the ODBC folder
+  shell: "cp lib/libmyodbc8* /usr/lib/x86_64-linux-gnu/odbc
+  chdir={{ odbc_src_dir }}"
+  when: not odbc_driver.stat.exists
+
+- name: Install
+  shell: 'bin/myodbc-installer -d -a -n "MySQL"
+  -t "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so;"
+  chdir={{ odbc_src_dir }}'
+  when: not odbc_driver.stat.exists
+
+- name: Make sure asterisk_odbc_driver_path is owned by root
+  file:
+    path: /usr/lib/x86_64-linux-gnu/odbc/
+    owner: root
+    recurse: yes
+    group: root
+    mode: 0775

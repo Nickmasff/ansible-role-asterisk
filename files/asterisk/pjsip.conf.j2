@@ -1,0 +1,60 @@
+; {{ ansible_managed }}
+
+[transport-udp]
+type=transport
+protocol=udp    ;udp,tcp,tls,ws,wss
+bind=0.0.0.0
+
+[transport-wss]
+type=transport
+protocol=wss
+bind=0.0.0.0
+
+{% for name, aor in aors.items() %}
+[{{name}}]
+type=aor
+contact={{aor.contact}}
+{% endfor %}
+{% for name, endpoint in endpoints.items() %}
+[{{name}}]
+type=endpoint
+transport=transport-udp
+{% for key, value in endpoint.items() %}
+{% if key ==  'allow' %}
+{% for item in endpoint.allow %}
+allow={{item}}
+{% endfor %}
+{% else %}
+{{key}}={{value}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% for name, identify in identifies.items() %}
+[{{name}}]
+type=identify
+{% for key, value in identify.items() %}
+{{key}}={{value}}
+{% endfor %}
+{% endfor %}
+{% if authorizations %}
+{% for name, auth in authorizations.items() %}
+[{{name}}]
+type=auth
+{% for key, value in auth.items() %}
+{{key}}={{value}}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% if registrations %}
+{% for name, registration in registrations.items() %}
+[{{name}}]
+type=registration
+transport=transport-udp
+{% for key, value in registration.items() %}
+{{key}}={{value}}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+
+

@@ -1,0 +1,55 @@
+---
+- name: Asterisk configs
+  template:
+    src: '{{ item }}'
+    dest: /etc/asterisk/{{ item | basename | regex_replace('\.j2','') }}
+  with_fileglob:
+    - asterisk/*.j2
+
+- name: Copy odbcinst.ini
+  template:
+    src: odbcinst.ini.j2
+    dest: /etc/odbcinst.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy odbc.ini
+  template:
+    src: odbc.ini.j2
+    dest: /etc/odbc.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy res_odbc.conf
+  template:
+    src: res_odbc.conf.j2
+    dest: /etc/asterisk/res_odbc.conf
+    owner: "{{ asterisk_username }}"
+    group: root
+    mode: 0775
+
+- name: Make sure everything is owned by asterisk user
+  file:
+    path: "{{ item }}"
+    owner: "{{ asterisk_username }}"
+    group: root
+    recurse: true
+    mode: 0775
+  with_items:
+    - /var/run/asterisk
+    - /etc/asterisk
+    - /var/lib/asterisk
+    - /var/log/asterisk
+    - /var/spool/asterisk
+    - /usr/lib64/asterisk
+    - /var/www/
+    - /etc/letsencrypt/live
+    - /etc/letsencrypt/archive
+
+- name: Make sure the default asterisk service is enabled and started
+  service:
+    name: "asterisk"
+    enabled: yes
+    state: started

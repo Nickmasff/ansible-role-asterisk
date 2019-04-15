@@ -1,0 +1,17 @@
+; {{ ansible_managed }}
+
+[general]
+
+{% for name, moh in moh_classes.items() %}
+[{{name}}]
+
+mode={{moh.mode}}
+directory={{moh.directory}}
+
+{% endfor %}
+
+
+
+
+
+

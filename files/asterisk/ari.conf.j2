@@ -1,0 +1,13 @@
+; {{ ansible_managed }}
+
+[general]
+enabled = yes       ; When set to no, ARI support is disabled.
+pretty = yes        ; When set to yes, responses from ARI are formatted to be human readable.
+allowed_origins = http://ari.asterisk.org  ; Comma separated list of allowed origins, for Cross-Origin Resource Sharing. May be set to * to allow all origins.
+websocket_write_timeout = 1000
+
+[{{ari_user}}]
+type = user
+read_only = no
+password = {{ari_password}}
+password_format = plain

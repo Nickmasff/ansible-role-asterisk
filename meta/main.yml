@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: asterisk
+  description: Installs Asterisk from source on Ubuntu.
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
+  galaxy_tags:
+    - asterisk
+    - psip
+    - webrtc
+    - mysql

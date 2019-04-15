@@ -1,0 +1,15 @@
+; {{ ansible_managed }}
+
+[MySQL-asterisk]
+enabled=>yes
+dsn=>MySQL-asterisk
+pooling=>no
+limit=>1
+pre-connect=>yes
+username=>{{ mysql_user }}
+password=>{{ mysql_password }}
+mysql_database=>{{ mysql_database }}
+
+
+
+

@@ -1,0 +1,12 @@
+; {{ ansible_managed }}
+
+[modules]
+autoload=yes
+
+{% for module in preload_modules %}
+preload => {{ module }}
+{% endfor %}
+
+{% for module in noload_modules %}
+noload => {{ module }}
+{% endfor %}

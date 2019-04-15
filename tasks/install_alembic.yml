@@ -1,0 +1,18 @@
+---
+- name: Install alembic
+  shell: pip install --upgrade setuptools && pip install alembic
+  when: not alembic_config.stat.exists
+  tags: skip_ansible_lint
+
+- name: Copy alembic config
+  template:
+    src: config.ini.j2
+    dest: "{{ alembic_path }}/config.ini"
+    owner: asterisk
+    group: root
+    mode: 0644
+
+- name: Create realtime config tables
+  shell: alembic -c config.ini upgrade head chdir={{ alembic_path }}
+  when: not alembic_config.stat.exists
+  tags: skip_ansible_lint

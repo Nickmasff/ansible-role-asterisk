@@ -1,0 +1,13 @@
+; {{ ansible_managed }}
+
+[MySQL-asterisk]
+Description           = MySQL connection to  database
+Driver                = MySQL
+Database              = {{ mysql_database }}
+Server                = localhost
+User                  = {{ mysql_user }}
+Password              = {{ mysql_password }}
+Port                  = 3306
+Socket                = {{mysql_socket}}
+
+

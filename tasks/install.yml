@@ -1,0 +1,97 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: true
+    update_cache: true
+    cache_valid_time: 86400
+
+- name: Install asterisk pre-requisites
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - gcc
+      - cpp
+      - make
+      - unixodbc
+      - unixodbc-dev
+      - python-dev
+      - python-pip
+      - python-mysqldb
+      - lame
+      - odbcinst
+      - wget
+
+- name: Remove existing install source dir
+  file: "path={{ asterisk_src_dir }} state=absent"
+
+- name: Create install source dir
+  file: "path={{ asterisk_src_dir }} state=directory"
+
+- name: Download Asterisk source.
+  command: 'wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-{{ asterisk_version }}-current.tar.gz'
+  args:
+    chdir: /tmp
+  when: not asterisk_status.stat.exists
+  tags: skip_ansible_lint
+
+- name: Extract Asterisk source.
+  unarchive:
+    src: "/tmp/asterisk-{{ asterisk_version }}-current.tar.gz"
+    dest: "{{ asterisk_src_dir }}"
+    remote_src: "yes"
+    extra_opts: ['--strip-components=1']
+
+- name: Let asterisk install dependencies
+  shell: 'set -o pipefail && export DEBIAN_FRONTEND=noninteractive && yes |
+  ./contrib/scripts/install_prereq install chdir={{ asterisk_src_dir }}'
+  when: not asterisk_status.stat.exists
+
+- name: Configure asterisk
+  command: ./configure --with-pjproject-bundled chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Create menuselect.makeopts
+  command: make menuselect.makeopts chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Do a bit of menuselect configuration
+  command: "{{ item }} chdir={{ asterisk_src_dir }}"
+  with_items:
+    - 'menuselect/menuselect --enable format_mp3'
+    - 'menuselect/menuselect --enable codec_opus'
+    - 'menuselect/menuselect --enable CORE-SOUNDS-EN-WAV
+    --enable CORE-SOUNDS-EN-G722'
+    - 'menuselect/menuselect  --enable EXTRA-SOUNDS-EN-GSM
+    --enable EXTRA-SOUNDS-EN-WAV --enable EXTRA-SOUNDS-EN-G722'
+    - 'menuselect/menuselect --enable app_statsd
+    --enable chan_pjsip menuselect.makeopts'
+  when: not asterisk_status.stat.exists
+
+- name: Make
+  command: make  chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Install
+  command: make install chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Make samples
+  command: make samples chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Install the initscript
+  command: make config chdir={{ asterisk_src_dir }}
+  when: not asterisk_status.stat.exists
+
+- name: Make sure the default asterisk service is enabled
+  service:
+    name: "asterisk"
+    enabled: yes
+
+- name: Add Asterisk user
+  user:
+    name: "{{ asterisk_username }}"
+    state: present
+    comment: "Asterisk User"
