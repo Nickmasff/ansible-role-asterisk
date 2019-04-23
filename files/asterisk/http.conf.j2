@@ -4,7 +4,12 @@
 enabled=yes
 bindaddr=0.0.0.0
 bindport=8088
+{% if tlsenable is sameas true %}
 tlsenable=yes
 tlsbindaddr=0.0.0.0:8089
 tlscertfile = /etc/letsencrypt/live/{{asterisk_domain}}/fullchain.pem
 tlsprivatekey=/etc/letsencrypt/live/{{asterisk_domain}}/privkey.pem
+{% endif %}
+
+
+
