@@ -3,6 +3,7 @@
 
 mysql_user: user
 mysql_password: password
+mysql_host: "localhost"
 mysql_database: asterisk
 mysql_priv: "asterisk.*:ALL"
 mysql_root_pass: password
@@ -110,3 +111,5 @@ alembic_path: /usr/src/iasterisk/contrib/ast-db-manage
 
 asterisk_domain: test.com
 log_level: warning,error,debug,notice
+
+tlsenable: false

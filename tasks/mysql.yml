@@ -46,6 +46,7 @@
   mysql_user:
     name: "{{ mysql_user }}"
     password: "{{ mysql_password }}"
+    host: "{{mysql_host}}"
     priv: "{{ mysql_priv }}"
     state: present
     login_unix_socket: "{{ mysql_socket }}"
