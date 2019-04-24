@@ -1,10 +1,13 @@
 ---
-- name: Asterisk configs
-  template:
-    src: '{{ item }}'
-    dest: /etc/asterisk/{{ item | basename | regex_replace('\.j2','') }}
-  with_fileglob:
-    - asterisk/*.j2
+
+- name: Copy Asterisk configs
+  copy:
+    src: "{{ asterisk_config_path }}"
+    dest: /etc/asterisk//
+    owner: "{{ asterisk_username }}"
+    group: "{{ asterisk_group }}"
+    mode: 0644
+  when: asterisk_config_path is defined
 
 - name: Copy odbcinst.ini
   template:

@@ -3,113 +3,24 @@
 
 mysql_user: user
 mysql_password: password
-mysql_host: "localhost"
 mysql_database: asterisk
 mysql_priv: "asterisk.*:ALL"
+mysql_host: "localhost"
 mysql_root_pass: password
 
 mysql_bind_address: 0.0.0.0
 mysql_socket: /run/mysqld/mysqld.sock
 
-# Modules settings.
-
-preload_modules:
-  - res_odbc.so
-  - res_config_odbc.so
-  - res_musiconhold.so
-
-noload_modules:
-  - chan_sip.so
-  - cdr_tds.so
-  - cdr_pgsql.so
-  - cel_sqlite3_custom.so
-  - cel_tds.so
-  - cdr_radius.so
-  - cel_radius.so
-  - cdr_sqlite3_custom.so
-  - pbx_gtkconsole.so
-  - chan_alsa.so
-  - chan_console.so
-  - res_hep.so
-  - res_hep_pjsip.so
-  - res_hep_rtcp.so
-
-# MOH settings.
-
-moh_classes:
-  default:
-    mode: files
-    directory: moh
-    name: default
-
-# PJSIP settings.
-
-aors:
-  name:
-    contact: sip:test@mail.com@examle.com:5060
-
-endpoints:
-  name:
-    context: default
-    disallow: all
-    allow:
-      - ulaw
-      - alaw
-    aors: name
-    direct_media: "no"
-
-identifies:
-  name:
-    endpoint: name
-    match: examle.com
-
-authorizations:
-  name:
-    auth_type: userpass
-    password: password
-    username: username
-
-registrations:
-  name:
-    outbound_auth: name
-    server_uri: sip.test.com
-    client_uri: sip:client@sip.test.com
-    retry_interval: 60
-    expiration: 120
-    contact_user: name
-
-# Dialplan settings.
-
-contexts:
-  default:
-    1: 200,1,Answer()
-    2: n,Playback(demo-congrats)
-    3: n,Hangup()
-
-# Asterisk users settings.
+# Asterisk
 
 asterisk_username: asterisk
 asterisk_group: asterisk
 
-ari_user: name
-ari_password: password
-
 # Other settings.
 
-stunaddr: stun.l.google.com:19302
-
 asterisk_odbc_driver_path: /usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so
-
 asterisk_src_dir: /usr/src/iasterisk/
 asterisk_version: 15
-
 odbc_src_url: https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.12-linux-ubuntu18.04-x86-64bit.tar.gz
-
 odbc_src_dir: /usr/src/iodbc/
-
 alembic_path: /usr/src/iasterisk/contrib/ast-db-manage
-
-asterisk_domain: test.com
-log_level: warning,error,debug,notice
-
-tlsenable: false
