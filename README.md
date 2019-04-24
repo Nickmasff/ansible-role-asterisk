@@ -48,48 +48,7 @@ None.
     asterisk_username: asterisk
     asterisk_group: asterisk
     
-    ari_user: ari_user
-    ari_password: ari_password
-      
-    aors:
-      name:
-        contact: sip:test@mail.com@examle.com:5060
-    
-    endpoints:
-      name:
-        context: default
-        disallow: all
-        allow:
-          - ulaw
-          - alaw
-        aors: name
-        direct_media: "no"
-    
-    identifies:
-      name:
-        endpoint: name
-        match: examle.com
-    
-    authorizations:
-      name:
-        auth_type: userpass
-        password: password
-        username: username
-    
-    registrations:
-      name:
-        outbound_auth: name
-        server_uri: sip.test.com
-        client_uri: sip:client@sip.test.com
-        retry_interval: 60
-        expiration: 120
-        contact_user: name
-    
-    contexts:
-      default:
-        1:  200,1,Answer()
-        2:  n,Playback(demo-congrats)
-        3:  n,Hangup()
+    asterisk_config_path: ../../../files/asterisk/
     
     
     
